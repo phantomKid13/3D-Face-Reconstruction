@@ -1,0 +1,3 @@
+newmtl FaceTexture
+map_Kd image652.png
+disp /gdrive/MyDrive/Face_Reconstruction/constructor/deca/results/image652/image652_normals.png

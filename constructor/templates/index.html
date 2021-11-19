@@ -1,0 +1,476 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+  
+    <title>3D Face Construction</title>
+    <link href="{%static 'css/bootstrap.css'%}" rel="stylesheet" />
+    <link href="{%static 'css/font-awesome.min.css'%}" rel="stylesheet" />
+    <link href="{%static 'css/index.css'%}" rel="stylesheet" />
+    <!-- <link href='https://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' /> -->
+   
+</head>
+
+<style>
+    @media (max-width: 768px) {
+        div #video-container{
+          overflow: hidden;
+          width: 90%;
+          margin: 0 5%;
+        }
+    }
+
+    div #video-container{
+      overflow: hidden;
+      width: 70%;
+      margin: 0 15%;
+    }
+</style>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img class="logo" src="{%static 'fonts/logo.png'%}" alt="#">
+                <a class="navbar-brand" href="#home">3D Face Construction</a>
+            </div>
+            <!-- Collect the nav links for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#home">HOME</a>
+                    </li>
+                    <li><a href="#free-text">FACE CONSTRUCTION</a>
+                    </li>
+                    <li><a href="#services">DEMO</a>
+                    </li>
+                    <li><a href="#about">ABOUT</a>
+                    </li>
+                     <li><a href="#contact">CONTACT</a>
+                    </li>
+                    <!-- Github repository containing Face Construction Project -->
+                    <li><a href="#"><strong>e-mail : </strong>Face3D@gmail.com</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!--End Navigation -->
+
+
+    <!--Header section  -->
+    <div class="container" id="home">
+        <div class="row text-center ">
+            <div class="col-md-3 head-main ">     
+
+                <a href="#home">
+                    <i class="fa fa-bell color-blue "></i>
+                    <h3> HOME</h3>
+                </a>
+   
+            </div>
+
+            <div class="col-md-3 head-main">
+
+                <a href="#services">
+                    <i class="fa fa-globe color-blue "></i>
+                    <h3> DEMO</h3>
+                </a>
+      
+            </div>
+            <div class="col-md-3 head-main">
+    
+                    <a href="#about">
+                        <i class="fa fa-edit color-blue "></i>
+                        <h3> ABOUT</h3>
+                    </a>
+            </div>
+    
+            <div class="col-md-3 head-main">
+                    
+                    <a href="#contact">
+                        <i class="fa fa-headphones color-blue"></i>
+                        <h3>CONTACT</h3>
+                    </a>
+            </div>
+        </div>
+    </div>
+    <!--End Header section  -->
+
+    <!-- Free Section -->
+    <section class="for-full-back color-light" id="free-text" >
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-8 col-md-offset-2">
+                    <h1>3D Face Construction</h1>
+                    <h4>
+                        <p class="text-justify">
+                        <strong>3D face reconstruction has significant importance in the field of
+                            computer vision and image processing. It is considered to be a useful computer vision tool, though it is difficult to build. This site proposes a 3D face reconstruction method, which is easy to implement and computationally efficient. It takes a single 2D image as input, and gives 3D reconstructed images as output. Our method primarily consists of three main steps: feature extraction, depth calculation, and creation of a 3D image from the processed image using a Basel face model (BFM).
+                        </strong>
+                        </p>
+                    </h4>
+                </div>
+
+            </div>
+            <div class="row text-center space-pad">
+                <div class="col-md-6 ">
+
+                    <div class="free-div">
+                        <h4 class="fig-head">Example 1</h4>
+                        <div>
+                            <div class="sample-container org">
+                                <img class="sample" src="{%static 'fonts/fabbysam.jpeg'%}" alt="#">
+                                <h4 class="fig">Input Image</h4>
+                            </div>
+                            <div class="sample-container">
+                                <img class="sample" src="{%static 'fonts/fabbysam0.jpeg'%}" alt="#">
+                                <h4 class="fig">3D Model</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6 ">
+
+                    <div class="free-div">
+                        <h4 class="fig-head">Example 2</h4>
+                        <div>
+                            <div class="sample-container org">
+                                <img class="sample" src="{%static 'fonts/jiten.jpeg'%}" alt="#">
+                                <h4 class="fig">Input Image</h4>
+                            </div>
+                            <div class="sample-container">
+                                <img class="sample" src="{%static 'fonts/jiten0.jpeg'%}" alt="#">
+                                <h4 class="fig">3D Model</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+            </div>
+            
+             <div class="row text-center">
+                <div class="col-md-8 col-md-offset-2">
+                  <h4>
+                        <p class="text-justify">
+                            <strong>
+                              First, the features of a single 2D image are extracted using a two-step process. Before distinctive-features extraction, a face must be detected to confirm whether one is present in the input image or not. For this purpose, facial features like eyes, nose, and mouth are extracted. Then, distinctive features are mined by using scale-invariant feature transform (SIFT), which will be used for 3D face reconstruction at a later stage. Second step comprises of depth calculation, to assign the image a third dimension. Multivariate Gaussian distribution helps to find the third dimension, which is further tuned using shading cues that are obtained by the shape from shading (SFS) technique. Thirdly, the data obtained from the above two steps will be used to create a 3D image using BFM.
+                            </strong>
+                        </p>
+                    </h4>
+                </div>
+             </div>
+
+            <div id="video-container">
+              <video style="width: 100%; height:100% !important" controls autoplay muted loop>
+                  <source src="{%static 'fonts/trim.mp4'%}" type="video/mp4">
+                  Your browser does not support the video tag.
+              </video>
+            </div>
+          
+        </div>
+    </section>    
+    <!--End Free Section -->
+
+    <!-- Services Section-->
+    <section class="for-full-back color-white" id="services">
+        <div class="container">
+
+            <div class="row text-center">
+                <div class="col-md-8 col-md-offset-2">
+                    <h1>DEMO</h1>
+                    <h4>
+                        <strong id="file-picker">
+                            <p>Use File Picker or Webcam for Meida Upload. Refer above video for rendering options</p>
+                            <p>Upload { .jpg .bmp .png .mp4} Files Only.</p>
+                        </strong>
+                    </h4>
+                </div>
+
+            </div>
+            
+            <div class="row  space-pad color-light">
+                
+                <div class="col-md-12 ">
+                    <p class="text-center">
+                        <input type='button' class="toggle-btn" style="background:#40054a" value="Meshlab" onclick='stop();runLab();'>
+                        <input type='button' class="toggle-btn" value="File Upload" onclick='stop();runUpload();'>
+                        <input type='button' class="toggle-btn" value="Camera" onclick='start();runCam();'>
+                    </p>
+
+                    <div class="file-upload">
+                        <form method="post" action="upload" enctype="multipart/form-data">
+                            {% csrf_token %}
+                        <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image or Video</button>
+                      
+                        <div class="image-upload-wrap">
+                          <input class="file-upload-input" type='file' onchange="readURL(this);" name="myfile" accept="image/*,video/*" />
+                          <div class="drag-text">
+                            <h3>Drag and drop a file or select add Media</h3>
+                          </div>
+                        </div>
+                        <div class="file-upload-content">
+                          <img class="file-upload-image" src="#" alt="your image" onerror="this.src='static/fonts/video_icon.png'"/>
+                          <div class="image-title-wrap">
+                            <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                          </div>
+                        </div>
+                            <button type="submit" id="upload">Upload</button>
+                        </form>
+                      </div>
+                
+                    <div id="cam"> 
+                
+                        <div id="my_camera"></div>
+                        <div id="snap">
+                            <input type=button id="capture" value="Take Snapshot" onClick="take_snapshot()">
+                        </div>
+                        <div id="results"></div>
+                        <div id="upload_c-container">
+                            <form method="post" action="cam_upload" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <button type="submit" id="upload_c">Upload</button>
+                            </form>
+                        </div>
+                        
+                    </div>
+                
+                    <div id="lab"><iframe src="https://www.meshlabjs.net/" id="myframe" style=" width: 100%; min-height: 100vh;" frameborder="0"></iframe></div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+
+    </section>
+
+    <!--End Services Section-->
+
+    <!--About Section-->
+    <section class="for-full-back color-light " id="about">
+        <div class="container">
+
+            <div class="row text-center">
+                <div class="col-md-8 col-md-offset-2">
+                    <h1>ABOUT US</h1>
+                    <h4>
+                        <p class="text-justify">
+                            <strong>
+                              We are Third Year Computer Engineering Students currently studying at RAIT (Nerul). We have worked on multiple Image Processing Projects like Emotion Detection, Object Detection and Recognition and have fair amount of experience working with pytorch, keras and OpenCV.
+                            </strong>
+                        </p>
+                    </h4>
+                </div>
+
+            </div>
+            
+            <div class="row text-center space-pad">
+                <div class="col-md-4 ">
+
+                    <div class="about-div">
+
+                        <img class="about-img" src="{%static 'fonts/shubham.jpg'%}" alt="#">
+                        <h3 style="padding-bottom: 5px;">Shubham Mohape</h3>
+                        <div class="row text-center">
+                          <div style="padding-bottom: 0.5rem;">
+                              <strong><i class="fa fa-envelope-o"></i>&nbsp;shubham.mohapess@gmail.com </strong>
+                          </div>
+                          <div>
+                              <strong><i class="fa fa-phone"></i>&nbsp;+91 83695 96860 </strong>
+                          </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4 ">
+
+                    <div class="about-div">
+
+                        <img class="about-img" src="{%static 'fonts/shreyas.jpg'%}" alt="#">
+                        <h3 style="padding-bottom: 5px;">Shreyas Patil</h3>
+                        <div class="row text-center">
+                          <div style="padding-bottom: 0.5rem;">
+                              <strong><i class="fa fa-envelope-o"></i>&nbsp;svpatil20000@gmail.com  </strong>
+                          </div>
+                          <div>
+                              <strong><i class="fa fa-phone"></i>&nbsp;+91 93264 92658 </strong>
+                          </div>
+                        </div>
+                    
+                    </div>
+
+                </div>
+                <div class="col-md-4 ">
+
+                    <div class="about-div">
+                        <img class="about-img" src="{%static 'fonts/chirag.jpg'%}" alt="#">
+                        <h3 style="padding-bottom: 5px;">Chirag Nawale</h3>
+
+                         <div class="row text-center">
+                          <div style="padding-bottom: 0.5rem;">
+                              <strong><i class="fa fa-envelope-o"></i>&nbsp;chiragnawale1234@gmail.com  </strong>
+                          </div>
+                          <div>
+                              <strong><i class="fa fa-phone"></i>&nbsp;+91 88790 52490 </strong>
+                          </div>
+                        </div>
+                      
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+
+
+    </section>  
+   
+    <!--End About Section-->
+
+    <!-- Contact Section -->
+    <section class="for-full-back color-white " id="contact">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-8 col-md-offset-2">
+                    <h1>CONTACT</h1>
+                    <h4>
+                        <p class="text-center">
+                            <strong>Feel free to Contact Us for more such exciting Project Ideas
+                            </strong>
+                        </p>
+                    </h4>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 contact-cls">
+                    <h3>OUR LOCATION </h3>
+                    <div>
+                        <span><i class="fa fa-home"></i>&nbsp; Address: Nerul (Navi Mumbai)</span>
+                        <br />
+                        <span><i class="fa fa-phone"></i>&nbsp;Phone: +91 88-790-52-490</span>
+                        <br />
+                        <span><i class="fa fa-envelope-o"></i>&nbsp;E-Mail: Face3D@gmail.com</span>
+                        <br />
+                        <span><i class="fa fa-globe"></i>&nbsp;Web: www.yourdomain.com</span>
+                        <br /> <br />
+                        <!-- <button type="submit" class="btn btn-primary">Requestb Quotation</button> -->
+                    </div>
+                  
+                </div>
+                <div class="col-md-7">
+                    <h3>FEEDBACK FORM</h3>
+                    <p>
+                        <strong>
+                        Was the website easy to use? Were you able to find the information you needed? Please take time to give opinion on changes we can make!
+                        </strong>
+                    </p>
+                    <form method="POST" action="">
+                      {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" required="required" name="name" placeholder="Name">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" required="required" name="email" placeholder="Email address">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <textarea name="message" id="message" required="required" class="form-control" rows="3" placeholder="Message"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="feedback-btn">Submit Feedback</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!--End Contact Section -->
+
+    <!--footer Section -->
+    <div class="for-full-back " id="footer">
+        2014 www.yourdomain.com 
+         
+    </div>
+    <!--End footer Section -->
+    <!-- JAVASCRIPT FILES PLACED AT THE BOTTOM TO REDUCE THE LOADING TIME  -->
+
+    <script src="{%static 'plugins/jquery-1.10.2.js'%}"></script>
+    <script src="{%static 'plugins/bootstrap.js'%}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.js"></script>
+ 
+    <!-- CUSTOM SCRIPTS -->
+    <script src="{%static 'js/index.js'%}"></script>
+
+    <!-- Configure a few settings and attach camera -->
+    <script language="JavaScript">
+
+    var audio = new Audio("{%static 'plugins/shutter.mp3'%}");
+
+    function start(){
+        Webcam.set({
+            width: 400,
+            height: 300,
+            image_format: "png"
+        });
+        Webcam.attach('#my_camera');
+    }
+
+    function stop(){
+        Webcam.reset();
+    }
+
+    function take_snapshot() {
+    
+        audio.play();
+        // take snapshot and get image data
+        Webcam.snap( function(data_uri) {
+            // display results in page
+            document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
+
+            $.ajax({
+                url: "cam",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    url: data_uri,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                success : function(json) {
+                    console.log("Success")
+                }
+            });
+        });
+        $('#upload_c-container').show()
+    }
+
+    </script>
+
+</body>
+</html>
