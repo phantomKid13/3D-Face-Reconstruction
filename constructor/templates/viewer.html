@@ -1,0 +1,185 @@
+{%load static%}
+<html>
+<head>
+  <link href="{%static 'css/font-awesome.min.css'%}" rel="stylesheet" />
+  <link rel="stylesheet" href="{%static 'css/viewer.css'%}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://threejsfundamentals.org/threejs/resources/threejs/r105/three.min.js"></script>
+  <script src="https://threejsfundamentals.org/threejs/resources/threejs/r105/js/controls/OrbitControls.js"></script>
+  <script src="https://threejsfundamentals.org/threejs/resources/threejs/r105/js/loaders/LoaderSupport.js"></script>
+  <script src="https://threejsfundamentals.org/threejs/resources/threejs/r105/js/loaders/OBJLoader2.js"></script>
+  <script src="https://threejsfundamentals.org/threejs/resources/threejs/r105/js/loaders/MTLLoader.js"></script>
+</head>
+<body>
+  
+      <div class="wrapper">
+        <div class="file-upload">
+          <input type="file" id="obj"/>
+          <i class="fa fa-arrow-up"></i>
+        </div>
+        <label id="objlabel">Upload .obj</label>
+        <div class="file-upload">
+          <input type="file" id="mtl"/>
+          <i class="fa fa-arrow-up"></i>
+        </div>
+        <label id="mtllabel">Upload .mtl</label>
+        <div class="file-upload">
+          <input type="file" id="tex"/>
+          <i class="fa fa-arrow-up"></i>
+        </div>
+        <label id="texlabel">Upload tex</label>
+        <button id="generate" onclick="generate()">Generate</button>
+      </div>
+  
+  <canvas id="c"></canvas>
+
+  <script>
+
+    'use strict';
+
+    /* global THREE */
+
+    function main(obj,mtl,tex) {
+      const canvas = document.querySelector('#c');
+      const renderer = new THREE.WebGLRenderer({canvas});
+
+      const fov = 45;
+      const aspect = 2;  // the canvas default
+      const near = 0.1;
+      const far = 100;
+      const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+      camera.position.set(0, 0, 50);
+
+      const controls = new THREE.OrbitControls(camera, canvas);
+      controls.target.set(0, -4, 0);
+      controls.update();
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color('black');
+
+      {
+        const planeSize = 0;
+
+        const loader = new THREE.TextureLoader();
+        const texture = loader.load(tex);
+        
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.magFilter = THREE.NearestFilter;
+        const repeats = planeSize /2;
+        texture.repeat.set(repeats, repeats);
+
+        const planeGeo = new THREE.PlaneBufferGeometry(planeSize, planeSize);
+        const planeMat = new THREE.MeshPhongMaterial({
+          map: texture,
+          side: THREE.DoubleSide,
+        });
+        const mesh = new THREE.Mesh(planeGeo, planeMat);
+        mesh.rotation.x = Math.PI * -.5;
+
+        scene.add(mesh);
+      }
+
+      {
+        const skyColor = 0xB1E1FF;  // light blue
+        const groundColor = 0xB97A20;  // brownish orange
+        const intensity = 1;
+        const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+        scene.add(light);
+      }
+
+      {
+        const color = 0xFFFFFF;
+        const intensity = 1;
+        const light = new THREE.DirectionalLight(color, intensity);
+        light.position.set(5, 10, 2);
+        scene.add(light);
+        scene.add(light.target);
+      }
+
+      {
+        const objLoader = new THREE.OBJLoader2();
+        objLoader.loadMtl(mtl, null, (materials) => {
+          
+        objLoader.setMaterials(materials);
+        
+        objLoader.load(obj, (event) => {
+
+            const root = event.detail.loaderRootNode;
+            root.scale.setScalar(40);
+            scene.add(root);
+            
+          });
+        });
+      }
+
+      function resizeRendererToDisplaySize(renderer) {
+        const canvas = renderer.domElement;
+        const width = canvas.clientWidth*2;
+        const height = canvas.clientHeight *2;
+        const needResize = canvas.width !== width || canvas.height !== height;
+        if (needResize) {
+          renderer.setSize(width, height, false);
+        }
+        return needResize;
+      }
+
+      function render() {
+
+        if (resizeRendererToDisplaySize(renderer)) {
+          const canvas = renderer.domElement;
+          camera.aspect = canvas.clientWidth / canvas.clientHeight;
+          camera.updateProjectionMatrix();
+        }
+
+        renderer.render(scene, camera);
+
+        requestAnimationFrame(render);
+      }
+
+      requestAnimationFrame(render);
+    }
+
+    $('#obj').change(function() {
+      var file = $('#obj')[0].files[0].name;
+      $("#objlabel").text(file);
+    });
+
+    $('#mtl').change(function() {
+      var file = $('#mtl')[0].files[0].name;
+      $("#mtllabel").text(file);
+    });
+
+    $('#tex').change(function() {
+      var file = $('#tex')[0].files[0].name;
+      $("#texlabel").text(file);
+    });
+
+    function generate(){
+
+      var data = new FormData();
+      data.append("obj",$('#obj')[0].files[0]) 
+      data.append("tex",$('#tex')[0].files[0]) 
+      data.append("mtl",$('#mtl')[0].files[0]) 
+
+      $.ajax({
+        url:"generate",
+        type:"POST",
+        cache: false,                                               //Upload files without caching
+        processData:false,                                          //Do not serialize data
+        contentType:false,                                          //No special connection type defined
+        mimeType:"multipart/form-data",
+        data:data,
+        success:function (arg) {
+            var obj='static/uploads/'+arg+'.obj'
+            var mtl='static/uploads/'+arg+'.mtl'
+            var tex='static/uploads/'+arg+'.png'
+            main(obj,mtl,tex)
+        }
+      })
+    }
+  
+    main(0,0,0)
+  </script>
+</body>
+</html>

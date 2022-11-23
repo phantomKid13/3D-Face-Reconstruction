@@ -1,3 +1,0 @@
-newmtl FaceTexture
-map_Kd face_video_frame0102.png
-disp TestSamples/examples/face_video/face_video_frame0102/face_video_frame0102_normals.png

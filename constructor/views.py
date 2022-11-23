@@ -2,8 +2,9 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.views.decorators.csrf import csrf_exempt
 
-from .deca.demos import demo_reconstruct
+#from .deca.demos import demo_reconstruct
 from django.utils.encoding import smart_str
 from wsgiref.util import FileWrapper
 from os import path
@@ -12,56 +13,54 @@ import random
 import mimetypes
 import urllib.request
 import os.path
-import time
+import shutil
 
 # Create your views here.
 
 selected_file=None
 loc='constructor/static/images/'
+uploc='constructor/static/uploads/'
 obj_loc='constructor/deca/results/'
 required=['.png','.jpg','.bmp','.mp4']
 
 def upload(request):
 
-    global selected_file
-    selected_file=None
+    # global selected_file
+    # selected_file=None
 
-    myfile = request.FILES['myfile'] if 'myfile' in request.FILES else False
+    # myfile = request.FILES['myfile'] if 'myfile' in request.FILES else False
     
-    if(request.method=='POST'):
+    # if(request.method=='POST'):
 
-        if(myfile!=False):
-            _,ext=os.path.splitext(myfile.name)
+    #     if(myfile!=False):
+    #         _,ext=os.path.splitext(myfile.name)
         
-            if(ext in required):
+    #         if(ext in required):
 
-                selected_file=myfile.name
+    #             selected_file=myfile.name
                 
-                if(path.exists(loc+selected_file)):
-                    os.remove(loc+selected_file)
+    #             if(path.exists(loc+selected_file)):
+    #                 os.remove(loc+selected_file)
 
-                fs = FileSystemStorage(location=loc)
-                filename = fs.save(myfile.name, myfile)
-                uploaded_file_url = fs.url(filename)
+    #             fs = FileSystemStorage(location=loc)
+    #             filename = fs.save(myfile.name, myfile)
+    #             uploaded_file_url = fs.url(filename)
 
-                try:
-                    a=time.time()
-                    demo_reconstruct.main(loc+selected_file)
-                    b=time.time()
-                    print("Executed in {}s".format(b-a))
-                except:
-                    return render(request,'index.html')
+    #             try:
+    #                 demo_reconstruct.main(loc+selected_file)
+    #             except:
+    #                 return render(request,'index.html')
                     
-        return HttpResponseRedirect("/") 
+    #     return HttpResponseRedirect("/") 
 
     return HttpResponse('Upload Successful')
 
 def cam_upload(request):
-    global selected_file
-    _,ext=os.path.splitext(selected_file)
+    # global selected_file
+    # _,ext=os.path.splitext(selected_file)
 
-    if(ext in required):
-        demo_reconstruct.main(loc+selected_file)
+    # if(ext in required):
+    #     demo_reconstruct.main(loc+selected_file)
     return HttpResponseRedirect("/")
 
 def cam(request):
@@ -85,6 +84,39 @@ def cam(request):
 
 def lab(request):
     return HttpResponse('Lab Successful')
+
+def viewer(request):
+    return render(request,'viewer.html')
+
+@csrf_exempt
+def generate(request):
+
+    if(request.method=='POST'):
+
+        obj = request.FILES.get('obj') 
+        mtl = request.FILES.get('mtl') 
+        tex = request.FILES.get('tex') 
+
+        if(obj and mtl and tex):
+            name=os.path.splitext(obj.name)[0]
+            upload=uploc+name+'/'
+          
+            try:
+                shutil.rmtree(upload)
+            except OSError as e:
+                pass
+
+            os.mkdir(upload)
+            fs = FileSystemStorage(location=upload)
+            obj = fs.save(obj.name, obj)
+            mtl = fs.save(mtl.name, mtl)
+            tex = fs.save(tex.name, tex)
+
+            print(obj,mtl,tex)
+
+            return HttpResponse(name+"/"+name) 
+
+    return render(request,'viewer.html')
 
 def home(request):
     global selected_file
